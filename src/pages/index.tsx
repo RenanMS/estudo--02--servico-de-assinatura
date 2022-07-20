@@ -1,7 +1,7 @@
-import type { AppProps } from 'next/app'
+import styles from '../styles/home.module.scss'
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+export default function Home() {
+  return (
+    <h1 className={styles.h1}>Limpando <span>estrutura</span></h1>
+  )
 }
-
-export default MyApp
