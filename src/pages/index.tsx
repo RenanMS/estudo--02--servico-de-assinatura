@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { FaHandSpock } from 'react-icons/fa'
+import { SubscribeButton } from '../components/SubscribeButton'
 import styles from './index.module.scss'
 
 export default function Home() {
@@ -22,6 +23,8 @@ export default function Home() {
             Tenha acesso a todas as publicações <br />
             <span> por R$ 9,90 mensal</span>
           </p>
+
+          <SubscribeButton />
 
         </section>
 
