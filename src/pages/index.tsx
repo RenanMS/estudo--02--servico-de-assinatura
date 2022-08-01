@@ -1,9 +1,18 @@
+import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { FaHandSpock } from 'react-icons/fa'
 import { SubscribeButton } from '../components/SubscribeButton'
+import { stripe } from '../services/stripe'
+import { centsToReal } from '../util/moeda'
 import styles from './index.module.scss'
+interface HomeProps {
+  product: {
+    priceId: string,
+    amount: string,
+  }
+}
 
-export default function Home() {
+export default function Home({ product }: HomeProps) {
   return (
     <>
       <Head>
@@ -21,10 +30,10 @@ export default function Home() {
 
           <p>
             Tenha acesso a todas as publicações <br />
-            <span> por R$ 9,90 mensal</span>
+            <span> por {product.amount} mensal</span>
           </p>
 
-          <SubscribeButton />
+          <SubscribeButton priceId={product.priceId} />
 
         </section>
 
@@ -32,4 +41,23 @@ export default function Home() {
       </main>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const price = await stripe.prices.retrieve('price_1LDBgMDYhCa7uAT8c0UbbUyH', {
+    expand: ['product']
+  })
+
+  // REVIEW Forçamos price.unit_amount existir
+
+  const product = {
+    priceId: price.id,
+    amount: centsToReal(price.unit_amount!),
+  }
+
+  return {
+    props: {
+      product
+    }
+  }
 }
