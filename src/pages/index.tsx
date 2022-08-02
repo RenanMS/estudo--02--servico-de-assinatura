@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next'
+import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import { FaHandSpock } from 'react-icons/fa'
 import { SubscribeButton } from '../components/SubscribeButton'
@@ -43,7 +43,7 @@ export default function Home({ product }: HomeProps) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const price = await stripe.prices.retrieve('price_1LDBgMDYhCa7uAT8c0UbbUyH', {
     expand: ['product']
   })
@@ -55,9 +55,13 @@ export const getServerSideProps: GetServerSideProps = async () => {
     amount: centsToReal(price.unit_amount!),
   }
 
+  const timeRevalidate = 60 * 60 * 24
+  // 60 segundos * 60 minutos * 24 horas
+
   return {
     props: {
       product
-    }
+    },
+    revalidate: timeRevalidate,
   }
 }
