@@ -9,7 +9,6 @@ export default function Document() {
         <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700;900&display=swap" rel="stylesheet" />
         
         <link rel="shortcut icon" href="favicon.png" type="image/png" />
-        <title>igNews - Serviço de assinatura</title>
       </Head>
       <body>
         <Main /> {/* Todo conteúdo da aplicação */}
