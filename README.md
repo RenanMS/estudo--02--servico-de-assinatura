@@ -1,8 +1,23 @@
 <h1>Serviço de assinatura com Next.js</h1>
 
-<p>Este é um projeto realizado a partir das vídeo aulas da Rocketseat.</p>
+<p>Projeto realizado a partir das vídeo aulas da Rocketseat. Melhorias que não estão nas aulas são adicionadas quando necessárias.</p>
 
-<p>Em breve será disponibilizado em formato de texto e imagens todo o processo de construção da aplicação </p>
+<p>Breve será adiconado um link do projeto finaizado.</p>
+
+<br />
+
+Deixe seu comentário e ajude a melhorar a documentação do passo a passo:
+
+<a href="https://renanmms.notion.site/NextJS-Servi-o-de-assinatura-7436c1ed3c91424ea7864d93badb1cdb">Passo a passo do projeto</a>
+
+
+<ul>
+  <li>Erros de códigos e gramática</li>
+  <li>Como podemos simplificar os exemplos</li>
+  <li>Outros</li>
+</ul>
+
+<br />
 
 <h2>Grupo de estudo</h2>
 
