@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Readable } from 'stream';
 import Stripe from "stripe";
 import { stripe } from "../../services/stripe";
+import { saveSubscription } from "./_lib/manageSubscriptions";
 
 async function buffer(readable: Readable) {
   const chunks = new Array
@@ -35,6 +36,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const secret = req.headers['stripe-signature']
 
     // Envento de validação do stripe
+    // Isso é uma tipagem genérica do stripe
     let event: Stripe.Event
 
     // Executa a validação
@@ -47,7 +49,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { type } = event
 
     if(relevantEvents.has(type)) {
-      console.log('Evento recebido', event)
+      // Tipagem relacionada a seção
+      const checkoutSession = event.data.object as Stripe.Checkout.Session
+
+      try {
+        switch(type) {
+          case 'checkout.session.completed':
+
+            await saveSubscription(
+              `${checkoutSession.subscription}`,
+              `${checkoutSession.customer}`
+            )
+
+            break
+
+          default:
+            throw new Error('Erro não tratado')
+        }
+      } catch (err) {
+        return res.json( { error: 'Falha no Webhook'})
+      }
     }
 
     res.json({received: true})
