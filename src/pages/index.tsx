@@ -1,4 +1,5 @@
-import { GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
+import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { FaHandSpock } from 'react-icons/fa'
 import { SubscribeButton } from '../components/SubscribeButton'
@@ -13,6 +14,8 @@ interface HomeProps {
 }
 
 export default function Home({ product }: HomeProps) {
+  const { data: session, status } = useSession()
+
   return (
     <>
       <Head>
@@ -28,10 +31,16 @@ export default function Home({ product }: HomeProps) {
 
           <h1>Notícias sobre <span>React</span></h1>
 
-          <p>
-            Tenha acesso a todas as publicações <br />
-            <span> por {product.amount} mensal</span>
-          </p>
+          {
+            session?.activeSubscription === undefined ?
+              <p> 
+                Tenha acesso a todas as publicações <br />
+                <span> por {product.amount} mensal</span>
+              </p> :
+              <p> 
+                Aproveite as publicações
+              </p>
+          }
 
           <SubscribeButton priceId={product.priceId} />
 
@@ -43,7 +52,8 @@ export default function Home({ product }: HomeProps) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
+
   const price = await stripe.prices.retrieve('price_1LDBgMDYhCa7uAT8c0UbbUyH', {
     expand: ['product']
   })
@@ -62,6 +72,5 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       product
     },
-    revalidate: timeRevalidate,
   }
 }
