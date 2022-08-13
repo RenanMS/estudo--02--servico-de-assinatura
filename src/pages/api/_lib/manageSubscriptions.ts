@@ -33,9 +33,27 @@ const createSubscription = async (subscriptionData:subscriptionData) => {
    )
 }
 
+const updateSubscription = async (subscriptionId: string, subscriptionData:subscriptionData) => {
+  await fauna.query(
+    q.Replace(
+      q.Select( // Busque o campo 'ref'
+        'ref',
+        q.Get(
+          q.Match(
+            q.Index('subscriptions_by_id'), // No index
+            subscriptionId // que de match com isso
+          )
+        ),
+      ),
+      { data: subscriptionData }
+    )
+  )
+}
+
 export async function saveSubscription(
   subscriptionId: string,
   customerId: string,
+  createdAction = false
 ) {
    // Buscar o usuário no banco do FaunaDB com o ID {customerId}
    // Salvar os dados da subscription no FaunaDB
@@ -52,5 +70,10 @@ export async function saveSubscription(
     price_id: subscription.items.data[0].price.id
    }
 
-   createSubscription(subscriptionData)
+   if(createdAction) {
+     createSubscription(subscriptionData)
+     return
+   }
+    
+   updateSubscription(subscriptionId, subscriptionData)
 }
