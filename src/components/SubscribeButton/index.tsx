@@ -1,4 +1,5 @@
 import { signIn, useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import { api } from '../../services/api'
 import { getStripeJs } from '../../services/stripe-js'
 import styles from './styles.module.scss'
@@ -9,6 +10,11 @@ interface SubscribeButtonProps {
 
 export const SubscribeButton = ({ priceId }: SubscribeButtonProps) => {
   const { data: session, status } = useSession()
+  const router = useRouter()
+
+  async function redirectPost() {
+    router.push('/posts')
+  }
 
   async function handleSubscribe() {
     if(status !== 'authenticated') {
@@ -31,13 +37,21 @@ export const SubscribeButton = ({ priceId }: SubscribeButtonProps) => {
 
   }
 
-  return (
+  return session?.activeSubscription === undefined ? (
     <button
       type="button"
       className={styles.subscribeButton}
       onClick={handleSubscribe}
     >
       Inscrever-se
+    </button>
+  ) : (
+    <button
+      type="button"
+      className={styles.subscribeButton}
+      onClick={redirectPost}
+    >
+      Ver postagens
     </button>
   )
 }

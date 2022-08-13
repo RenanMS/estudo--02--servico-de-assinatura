@@ -13,6 +13,46 @@ export default NextAuth({
     // adiciona aqui mais provedores
   ],
   callbacks: {
+    async session({ session }) {
+     try {
+      const userActiveSubscription = await fauna.query(
+        q.Get(
+          // Intersection retorna apenas se acotecer os dois Metch
+          // 1 - A assinatura deve ter a referência do usuário
+          // 2 - A assinatura deve estar com status active
+          q.Intersection([
+            q.Match( 
+              q.Index('subscription_by_user_ref'), // Busque neste index
+              q.Select( // A assinatura com esse ref.
+                'ref', // Retorne apenas o ref
+                q.Get(
+                  q.Match(
+                    // Busque pelo e-mail neste index os dados do usuário
+                    q.Index('user_by_email'),
+                    q.Casefold(`${session.user?.email}`)
+                  )
+                )
+              )
+            ),
+            q.Match(
+              q.Index('subscription_by_status'),
+              'active'
+            )
+          ])
+        )
+      )
+
+      return {
+        ...session,
+        activeSubscription: userActiveSubscription
+      }
+     } catch {
+      return {
+        ...session,
+        activeSubscription: null
+      }
+     }
+    },
     async signIn({user, account, profile }) {
       let { email } = user
 
