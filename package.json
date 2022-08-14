@@ -10,10 +10,6 @@
     "slicemachine": "start-slicemachine"
   },
   "dependencies": {
-    "@prismicio/client": "^6.6.4",
-    "@prismicio/helpers": "^2.3.3",
-    "@prismicio/react": "^2.4.4",
-    "@prismicio/slice-simulator-react": "^0.2.2",
     "@stripe/stripe-js": "^1.35.0",
     "axios": "^0.27.2",
     "faunadb": "^4.6.0",
@@ -26,6 +22,10 @@
     "stripe": "^9.16.0"
   },
   "devDependencies": {
+    "@prismicio/client": "^6.6.4",
+    "@prismicio/helpers": "^2.3.3",
+    "@prismicio/react": "^2.4.4",
+    "@prismicio/slice-simulator-react": "^0.2.2",
     "@types/node": "18.0.6",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
