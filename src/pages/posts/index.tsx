@@ -6,20 +6,8 @@ import { getPrismicClient } from '../../services/prismic'
 import styles from './styles.module.scss'
 import Link from 'next/link';
 
-type Spans = {
-  start?: number
-  end?: number
-  type?: 'hyperlink' | 'strong' | string
-  data?: {
-    link_type: 'Web' | string,
-    url: string,
-    target: '_blank' | string
-  }
-}
 interface Content {
-  type: 'heading1' | 'heading2' | 'paragraph' | 'list-item' | string
-  text: string
-  spans: Spans[]
+  type: string
 }
 
 type Post = {
