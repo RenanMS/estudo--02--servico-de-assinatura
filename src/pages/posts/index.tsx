@@ -4,21 +4,10 @@ import Prismic from '@prismicio/client';
 import { RichText } from 'prismic-dom'
 import { getPrismicClient } from '../../services/prismic'
 import styles from './styles.module.scss'
+import Link from 'next/link';
 
-type Spans = {
-  start?: number
-  end?: number
-  type?: 'hyperlink' | 'strong' | string
-  data?: {
-    link_type: 'Web' | string,
-    url: string,
-    target: '_blank' | string
-  }
-}
 interface Content {
-  type: 'heading1' | 'heading2' | 'paragraph' | 'list-item' | string
-  text: string
-  spans: Spans[]
+  type: string
 }
 
 type Post = {
@@ -42,11 +31,13 @@ export default function Posts({ posts }: PostsProps) {
       <div className={styles.posts}>
         {
           posts.map(post => (
-            <a key={post.slug} href='#'>
-              <time>{post.updateAt}</time>
-              <strong>{post.title}</strong>
-              <p>{post.excerpt}</p>
-            </a>
+            <Link href={`/posts/${post.slug}`}>
+              <a key={post.slug} >
+                <time>{post.updateAt}</time>
+                <strong>{post.title}</strong>
+                <p>{post.excerpt}</p>
+              </a>
+            </Link>
           ))
         }
       </div>
