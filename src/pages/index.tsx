@@ -32,7 +32,7 @@ export default function Home({ product }: HomeProps) {
           <h1>Notícias sobre <span>React</span></h1>
 
           {
-            session?.activeSubscription === undefined ?
+            !session?.activeSubscription ?
               <p> 
                 Tenha acesso a todas as publicações <br />
                 <span> por {product.amount} mensal</span>
@@ -42,7 +42,7 @@ export default function Home({ product }: HomeProps) {
               </p>
           }
 
-          <SubscribeButton priceId={product.priceId} />
+          <SubscribeButton />
 
         </section>
 

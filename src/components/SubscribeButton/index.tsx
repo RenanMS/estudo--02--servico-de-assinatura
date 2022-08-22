@@ -8,7 +8,7 @@ interface SubscribeButtonProps {
   priceId: string
 }
 
-export const SubscribeButton = ({ priceId }: SubscribeButtonProps) => {
+export const SubscribeButton = () => {
   const { data: session, status } = useSession()
   const router = useRouter()
 
@@ -20,6 +20,10 @@ export const SubscribeButton = ({ priceId }: SubscribeButtonProps) => {
     if(status !== 'authenticated') {
       signIn('github')
       return
+    }
+    
+    if(session?.activeSubscription) {
+      redirectPost()
     }
 
     try {
@@ -37,7 +41,7 @@ export const SubscribeButton = ({ priceId }: SubscribeButtonProps) => {
 
   }
 
-  return session?.activeSubscription === undefined ? (
+  return !session?.activeSubscription ? (
     <button
       type="button"
       className={styles.subscribeButton}
