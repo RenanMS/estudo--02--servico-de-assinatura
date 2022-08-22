@@ -21,6 +21,10 @@ export const SubscribeButton = ({ priceId }: SubscribeButtonProps) => {
       signIn('github')
       return
     }
+    
+    if(session?.activeSubscription) {
+      redirectPost()
+    }
 
     try {
       const res = await api.post('/subscribe')
@@ -37,7 +41,7 @@ export const SubscribeButton = ({ priceId }: SubscribeButtonProps) => {
 
   }
 
-  return session?.activeSubscription === undefined ? (
+  return !session?.activeSubscription ? (
     <button
       type="button"
       className={styles.subscribeButton}
