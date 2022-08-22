@@ -42,7 +42,7 @@ export default function Home({ product }: HomeProps) {
               </p>
           }
 
-          <SubscribeButton priceId={product.priceId} />
+          <SubscribeButton />
 
         </section>
 
